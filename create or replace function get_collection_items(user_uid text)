@@ -1,0 +1,11 @@
+create or replace function get_collection_items(user_uid text)
+returns setof collection_item
+language sql
+as $$ 
+SELECT * 
+FROM collection_item
+WHERE collection_item.list_access @> format('[{"uid": %I}]', user_uid)::jsonb
+$$;
+
+
+-- select * from get_collection_item('426c4f51-240c-49f5-8c94-95cbfa7736f6')
